@@ -2,22 +2,27 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <vector>
+#include <set>
 #include <random>
 #include <algorithm>
  
 int main()
 {    
-    cv::Mat image = cv::Mat::zeros(400, 400, CV_8UC3);
-    std::vector<cv::Point> points;
+    cv::Mat image = cv::Mat::zeros(500, 500, CV_8UC3);
 
     std::mt19937 rng;
     rng.seed(std::random_device()());
-    std::uniform_int_distribution<std::mt19937::result_type> rand(1, 400);
+    std::uniform_int_distribution<std::mt19937::result_type> rand(1, 500);
 
-    for(size_t i=0; i<100; ++i)
-        points.emplace_back(cv::Point(rand(rng), rand(rng)));
+    auto cmp = [](cv::Point lhs, cv::Point rhs) { return lhs.x>rhs.x or (lhs.x==rhs.x and lhs.y>rhs.y); };
+    std::set<cv::Point, decltype(cmp)> non_unique_points(cmp);
 
-    points.erase(std::unique(points.begin(), points.end()), points.end());
+    for(size_t i=0; i<50; ++i)
+        non_unique_points.emplace(cv::Point(rand(rng), rand(rng)));
+
+    std::vector<cv::Point> points;
+    points.assign(non_unique_points.begin(), non_unique_points.end());
+    std::shuffle(points.begin(), points.end(), rng);
 
     double distance = 0.0;
     for(size_t i=0; i<points.size()-1; ++i)
