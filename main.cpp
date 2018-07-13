@@ -8,8 +8,6 @@
  
 int main()
 {    
-    cv::Mat image = cv::Mat::zeros(500, 500, CV_8UC3);
-
     std::mt19937 rng;
     rng.seed(std::random_device()());
     std::uniform_int_distribution<std::mt19937::result_type> rand(1, 500);
@@ -22,22 +20,30 @@ int main()
 
     std::vector<cv::Point> points;
     points.assign(non_unique_points.begin(), non_unique_points.end());
-    std::shuffle(points.begin(), points.end(), rng);
+    double minimal_distance = 100000.0;
 
-    double distance = 0.0;
+while(true)
+{
+    cv::Mat image = cv::Mat::zeros(500, 500, CV_8UC3);
+    std::shuffle(points.begin(), points.end(), rng);
+    double actual_distance = 0.0;
     for(size_t i=0; i<points.size()-1; ++i)
     {
-        distance += std::sqrt(pow(points[i].x - points[i+1].x, 2) +
-                              pow(points[i].y - points[i+1].y, 2));
+        actual_distance += std::sqrt(pow(points[i].x - points[i+1].x, 2) +
+                                     pow(points[i].y - points[i+1].y, 2));
         cv::line(image, points[i], points[i+1], cv::Scalar(0, 255, 0));
     }
-    std::cout << distance;
 
     for(auto point : points)
         cv::circle(image, point, 3.0, cv::Scalar(255, 255, 255), cv::FILLED, 8);
-
-    cv::imshow("tsp", image);
- 
-    cv::waitKey(0);
+    if(actual_distance < minimal_distance)
+    {
+        std::cout << actual_distance << std::endl;
+        minimal_distance = actual_distance;
+        cv::imshow("tsp", image);
+        cv::waitKey(10);
+    }
+    //cv::waitKey(1);
+} 
     return(0);
 }
