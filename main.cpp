@@ -2,7 +2,7 @@
  
 int main()
 {    
-    Simulation sim(50);
+    Simulation sim;
     sim.run();
     return(0);
 }

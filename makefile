@@ -1,6 +1,6 @@
 CC = g++
 CFLAGS = -g -Wall
-SRCS = main.cpp
+SRCS = main.cpp simulation.cpp
 PROG = genetic_tsp
 
 OPENCV = `pkg-config opencv --cflags --libs`
