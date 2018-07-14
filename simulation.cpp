@@ -23,6 +23,7 @@ void Simulation::generate_cities(size_t cities_quantity, std::uniform_int_distri
     cities.reserve(cities_quantity);
     cities.assign(non_unique_cities.begin(), non_unique_cities.end());
     cities.shrink_to_fit();
+    std::shuffle(cities.begin(), cities.end(), rng);
 }
 
 void Simulation::create_window()
@@ -41,7 +42,7 @@ void Simulation::count_distance_and_draw_lines()
     actual_distance = 0.0;
     for(size_t i=0; i<cities.size()-1; ++i)
     {
-        actual_distance += std::sqrt(pow(cities[i].x - cities[i+1].x, 2) +
+        actual_distance += std::sqrt(pow(cities[i].x - cities[i+1].x, 2) +//consider removing sqrt
                                      pow(cities[i].y - cities[i+1].y, 2));
         cv::line(image, cities[i], cities[i+1], cv::Scalar(0, 255, 0));
     }
@@ -50,8 +51,9 @@ void Simulation::count_distance_and_draw_lines()
         std::cout << actual_distance << std::endl;
         minimal_distance = actual_distance;
         cv::imshow("tsp", image);
-        cv::waitKey(10);
+        cv::waitKey(50);
     }
+    cv::waitKey(1);
 }
 
 Simulation::Simulation(size_t cities_quantity)

@@ -1,7 +1,7 @@
+#pragma once
+
 #include <algorithm>
 #include "solver.hpp"
-
-#pragma once
 
 class RandomShuffleSolver : public Solver
 {

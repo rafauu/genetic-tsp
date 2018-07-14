@@ -1,7 +1,7 @@
+#pragma once
+
 #include <vector>
 #include <random>
-
-#pragma once
 
 class Solver
 {
