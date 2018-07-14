@@ -65,8 +65,7 @@ void Simulation::run()
     while(true)
     {
         create_window();
-        cities = solver.solve(cities, rng);
-        //std::shuffle(cities.begin(), cities.end(), rng);
+        solver->solve(cities, rng);
         draw_cities();
         count_distance_and_draw_lines();
     }

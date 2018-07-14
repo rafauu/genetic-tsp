@@ -2,7 +2,8 @@
 #include <limits>
 #include <vector>
 #include <random>
-#include "solver.hpp"
+#include <memory>
+#include "random_shuffle_solver.hpp"
 
 #pragma once
 
@@ -16,7 +17,7 @@ private:
     double actual_distance = 0.0;
     std::vector<cv::Point> cities;
     std::mt19937 rng;
-    Solver solver;
+    std::unique_ptr<Solver> solver = std::make_unique<RandomShuffleSolver>();
 
     std::uniform_int_distribution<std::mt19937::result_type> initialize_random_number_generator();
     void generate_cities(size_t cities_quantity, std::uniform_int_distribution<std::mt19937::result_type> rand);
