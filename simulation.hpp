@@ -2,7 +2,10 @@
 #include <limits>
 #include <vector>
 #include <random>
- 
+#include "solver.hpp"
+
+#pragma once
+
 class Simulation
 {
 private:
@@ -13,6 +16,7 @@ private:
     double actual_distance = 0.0;
     std::vector<cv::Point> cities;
     std::mt19937 rng;
+    Solver solver;
 
     std::uniform_int_distribution<std::mt19937::result_type> initialize_random_number_generator();
     void generate_cities(size_t cities_quantity, std::uniform_int_distribution<std::mt19937::result_type> rand);
