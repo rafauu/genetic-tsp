@@ -40,11 +40,11 @@ void Simulation::draw_cities()
 void Simulation::count_distance_and_draw_lines()
 {
     actual_distance = 0.0;
-    for(size_t i=0; i<cities.size()-1; ++i)
+    for(size_t i=0; i<cities.size(); ++i)
     {
-        actual_distance += std::sqrt(pow(cities[i].x - cities[i+1].x, 2) +//consider removing sqrt
-                                     pow(cities[i].y - cities[i+1].y, 2));
-        cv::line(image, cities[i], cities[i+1], cv::Scalar(0, 255, 0));
+        actual_distance += std::sqrt(pow(cities[i].x - cities[(i+1)%cities.size()].x, 2) +//consider removing sqrt
+                                     pow(cities[i].y - cities[(i+1)%cities.size()].y, 2));
+        cv::line(image, cities[i], cities[(i+1)%cities.size()], cv::Scalar(0, 255, 0));
     }
     if(actual_distance < minimal_distance)
     {
